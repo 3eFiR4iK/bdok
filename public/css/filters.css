@@ -1,0 +1,122 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden; 
+    font-family: helvetica;
+    font-weight: 100;
+   
+    
+}
+.container {
+    position: relative;
+    height: 90%;
+    width: 100%;
+    left: 0;
+    -webkit-transition:  left 0.4s ease-in-out;
+    -moz-transition:  left 0.4s ease-in-out;
+    -ms-transition:  left 0.4s ease-in-out;
+    -o-transition:  left 0.4s ease-in-out;
+    transition:  left 0.4s ease-in-out;
+}
+.container.open-sidebar {
+    left: 20%;
+}
+ 
+.swipe-area {
+    position: absolute;
+    width: 50px;
+    left: 0;
+    top: 0;
+    background: #ededed;
+    z-index: 0;
+    
+}
+#sidebar {
+    background: #BCF0E9;
+    position: absolute;
+    width: 20%;
+    left: -20%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    cursor: pointer;
+
+}
+#sidebar ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+#sidebar ul li {
+    margin: 0;
+}
+#sidebar ul li a {
+    padding: 15px 20px;
+    font-size: 16px;
+    font-weight: 100;
+    color: white;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #D2C3EE;
+    -webkit-transition:  background 0.3s ease-in-out;
+    -moz-transition:  background 0.3s ease-in-out;
+    -ms-transition:  background 0.3s ease-in-out;
+    -o-transition:  background 0.3s ease-in-out;
+    transition:  background 0.3s ease-in-out;
+}
+#sidebar ul li:hover a {
+    background: #D2C3EE;
+    
+}
+.main-content {
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    position: relative;
+}
+.main-content .content{
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    padding-left: 60px;
+    width: 100%;
+}
+.main-content .content h1{
+    font-weight: 100;
+}
+.main-content .content p{
+    width: 100%;
+    line-height: 160%;
+}
+.main-content #sidebar-toggle {
+    background: #563474;
+    border-radius: 3px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    letter-spacing: 3px;
+    display: block;
+    position: relative;
+    padding: 20px 5px;
+    float: left;
+    -webkit-writing-mode: vertical-rl; 
+    writing-mode: tb-rl;
+    margin-top: 25%;
+    margin-right: 40px;
+    
+    
+}
+.main-content #sidebar-toggle .bar{
+    display: block;
+    width: 18px;
+    margin-bottom: 3px;
+    height: 2px;
+    background-color: #fff;
+    border-radius: 1px;  
+    
+    
+    
+}
+.main-content #sidebar-toggle .bar:last-child{
+     margin-bottom: 0;   
+}

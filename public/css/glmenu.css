@@ -1,0 +1,59 @@
+.glmen div
+{
+    margin-top: 11%;
+    margin-left: 12%;
+}
+.glmen nav ul {
+    list-style: none; 
+    position: relative;
+}
+.glmen nav ul li {
+    float: left; margin: 0 20px 0 0;
+}
+.glmen nav ul li a {
+    display: block; width: 250px; height: 250px;
+    background-repeat: no-repeat;
+}
+.glmen nav ul li:nth-child(1) a {
+    background-image: url(1.png);
+    background-color: #5bb2fc;
+    background-position: 28px 28px;
+}
+.glmen nav ul li:nth-child(2) a {
+    background-image: url(2.png);
+    background-color: #58ebd3;
+    background-position: 28px 28px;
+}
+.glmen nav ul li:nth-child(3) a {
+    background-image: url(3.png);
+    background-color: #ffa659;
+    background-position: 28px 28px;
+}
+.glmen nav ul li:nth-child(4) a {
+    background-image: url(4.png);
+    background-color: #ff7a85;
+    background-position: 28px 28px;
+}
+
+.glmen nav ul li a span {
+    font: 60px "Dosis", sans-serif; 
+    font-variant: small-caps;
+    position: absolute; 
+    top: 300px;
+    display: none;
+}
+.glmen nav ul li a:hover span {
+    display: block;
+}
+.glmen nav ul li:nth-child(1) a span {
+    color: #5bb2fc;
+}
+.glmen nav ul li:nth-child(2) a span {
+    color: #58ebd3;
+}
+.glmen nav ul li:nth-child(3) a span {
+    color: #ffa659;
+}
+.glmen nav ul li:nth-child(4) a span {
+    color: #ff7a85;
+}
