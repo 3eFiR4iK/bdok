@@ -83,9 +83,11 @@ class AddPartController extends Controller
             'teacher' => 'bail|required',
             'reach' => 'bail|required',
             'subject' => 'bail|required',
+            'event' => 'bail|required',
         ]
         , $this->messages());
     }
+    
     public function messages(){
 
         
@@ -94,6 +96,7 @@ class AddPartController extends Controller
             'class.required' => 'поле "класс" обязательно для заполнения',
             'teacher.required' => 'поле "преподаватель" обязательно для заполнения',
             'reach.required' => 'поле "место" обязательно для заполнения',
+            'event.required' => 'поле "мероприятие" обязательно для заполнения',
             'subject.required' => 'поле "предмет" обязательно для заполнения'];
     }
     

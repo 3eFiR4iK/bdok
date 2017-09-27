@@ -22,7 +22,8 @@ Route::post('logout', 'LoginController@logout')->name('logout');
 Route::get('part','TestController@index') ;
 Route::get('part/filter/','TestController@filter')->name('filterPart');
 Route::get('part/toexcel','TestController@toExport');
-       
+Route::post('part/updateImage','TestController@updateImage');
+
 Route::get('kadet','KadetController@kadets');
 Route::get('kadet/filter','KadetController@filter')->name('filterKadet');
 

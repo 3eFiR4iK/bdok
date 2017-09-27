@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\lib\dataController;
+use App\part;
 
 class TestController extends Controller
 {
@@ -122,6 +123,28 @@ class TestController extends Controller
         $data['reach']=$this->db->getReach();
         $this->event=request()->getQueryString();
         return view('posts',['posts'=>$data],['status'=>$status]);
+    }
+    
+    public function updateImage(Request $request){
+        $dir='/images/';
+        $fileName='';
+       
+        
+        if($request->isMethod('post')){
+
+            if($request->hasFile('image')) {
+                $file = $request->file('image');
+                $fileName= str_random(12).'.jpg';
+                $file->move(public_path() . '/images',$fileName);
+                $fileName = $dir.$fileName;
+                $part = part::find($request->input('id'));
+                $part->diploma = $fileName;
+                $part->save();
+            }
+         }
+         //dump($request);
+         //dump($fileName);
+         return back();
     }
     
     public function toExport(){

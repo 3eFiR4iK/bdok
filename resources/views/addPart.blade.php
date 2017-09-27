@@ -9,19 +9,16 @@
         </div>
         <br><br>
 
-        @if($status !== NULL)
-        <p style="color:green;">{{$status}}</p>
-        @endif
-        @if (count($errors) > 0)
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+       
+        <p style="color:green;" id="status"></p>
+        
+        
+        
+        <div class="alert alert-danger" style="display: none">
+
         </div>
-        @endif
-        <form role="form" method="post" enctype="multipart/form-data" action="{{route('savePart')}}">
+        
+        <form role="form" method="post" id="add" enctype="multipart/form-data" action="{{route('savePart')}}">
             {{ csrf_field() }}
             <div class="form-group">
                 <label for="kadet">Кадет</label>
@@ -84,11 +81,42 @@
                 <br><br>
                 <input type="file" accept="image/*" name="image">
                 <br><br>
-
+                <button type="button" onclick="addForm();" class="btn">Добавить</button>   
                 <button type="submit" class="btn btn-success ">Добавить</button>   
-            </div>
+            
         </form>
+        </div>
     </div>
-</div>
+
+<script>
+
+function addForm(){
+    
+    $.ajax({
+        url: $("#add").attr("action"),
+        type: "POST",
+        data: $("#add").serialize(),
+        success: function(data){
+            //console.log($("#add").serializeArray());
+            $("select[name = kadet]").val(null).trigger('change');
+            $("select[name = reach]").val(null).trigger('change');
+            $("#status").text("Запись успешно добавлена").show();
+            $("div.alert").hide();
+        },
+        error: function (XMLHttpRequest){
+           // console.log($("#add").serializeArray());
+            var  foo = JSON.parse(XMLHttpRequest.responseText);
+            $("#status").hide();
+            $("div.alert").show().empty().prepend("<ul></ul>");
+            $.each(foo,function(elem){
+                $("div.alert > ul").prepend("<li>"+foo[elem][0]+"</li>");
+            });
+        }
+    });
+    
+}
+
+</script>
+
 
 @endsection

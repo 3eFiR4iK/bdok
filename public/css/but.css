@@ -54,6 +54,41 @@ a.button16:active {
    inset rgba(162,95,42,.4) 0 0 0 1px,
    inset rgba(255,255,255,.9) 0 0 1px 3px;
 }
+.file_upload {
+  /* Для того, чтобы спозиционировать input
+     относительно контейнера. */
+  position: relative;
+  /* Скрываем неумещающуюся часть input-а. */
+  overflow: hidden;
+ 
+  /* Украшательство: */
+ 
+  font-size: 30px;
+  line-height: 1;
+  text-align: center;
+  padding: 20px;
+}
+ 
+.file_upload input[type=file] {
+  /* Позиционируем правый верхний край
+     input поверх нашего контейнера.
+     Правый верхний потому как именно там
+     у нас кнопка. */
+  position: absolute;
+  top: 0; right: 0;
+ 
+  /* Делаем input побольше, чтобы он точно
+     перекрыл контейнер. */
+  font-size: 200px;
+ 
+  /* Делаем input невидимым. По-другому нельзя,
+     иначе браузер не будет на него реагировать. */
+  opacity: 0;
+  filter: alpha(opacity=0);
+ 
+  /*  Украшательства: */
+  cursor: pointer;
+}
 
 
 
