@@ -23,6 +23,7 @@
                     <a href="/kadet">
                         <button type="button" class="btn btn-info" >Сбросить фильтр</button>
                     </a>
+                    <a href="#myModal2"  data-toggle="modal"><button type="button" style="margin-top: 4px" class="btn btn-info" >Экспорт кадетов</button></a>
                 </div>
             </form>
 
@@ -80,6 +81,35 @@
 </div>
 
 </div>
-</div>      
+</div>   
+
+<div id="myModal2" class="modal fade">
+        <form method="post" id="upload" action="/export/kadets">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-- Заголовок модального окна -->
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title">Выберете класс</h4>
+                    </div>
+                    <!-- Основное содержимое модального окна -->
+                    <div class="modal-body">
+                        <select name="class" class="form-control select" style="width:100%">
+                        <option value=""></option>
+                        @foreach($kadets['classes'] as $class)
+                        <option value="{{$class->account}}">{{$class->nameClass}}</option>
+                        @endforeach
+                    </select>
+                    </div>
+                    <!-- Футер модального окна -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                        {{ csrf_field() }}
+                        <button type="submit" class="btn btn-primary">Экспорт</label>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 @endsection
 

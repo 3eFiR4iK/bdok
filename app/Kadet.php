@@ -19,13 +19,14 @@ class Kadet extends Model
         'studyKK'
     ];
     
-        public function getFullNameAttribute()
-    {
-        return $this->KLastName.' '.$this->KFirstName.' '.$this->KSecondName;
-    }
     
     public function KadetClass (){
         return $this->belongsTo(KadetClass::class,'accClass','account');
+    }
+    
+    public function getFullNameAttribute()
+    {
+        return $this->KLastName.' '.$this->KFirstName.' '.$this->KSecondName;
     }
     
     public static function boot() {

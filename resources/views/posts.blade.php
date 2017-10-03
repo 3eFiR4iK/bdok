@@ -86,7 +86,7 @@
                                     <td>{{$post->full_name}}</td>
                                     <td>{{$post->nameSubject}}</td>
                                     <td>{{$post->nClass}} (-<?php $create = explode('-', $post->creat);
-echo substr($create[0], 2) . 'г.';
+echo $create[0] . 'г.';
 ?>)<td>
                                         @if($post->diploma!=="")
                                     <td><a href='{{$post->diploma}}' data-rel="lightcase"> Просмотреть </a></td>

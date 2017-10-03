@@ -16,7 +16,7 @@ class KadetController extends Controller
 
     public function kadets()
     {
-    $query= $this->db->getAllKadets() ->paginate(15);
+    $query= $this->db->getAllKadets()->paginate(15);
     return $this->render($query);
     }
     

@@ -62,7 +62,7 @@ class Part extends Section
                 AdminColumn::custom('Класс', function ($query){ 
                     
                     $create = explode('-',$query->kadet->created_at);
-                    return $query->nClass.' (-'. substr($create[0],2).')';
+                    return $query->nClass.' (-'.$create[0].')';
                     
                 })->setWidth(80),
                 AdminColumn::text('event.nameEvent', 'Мероприятие'),

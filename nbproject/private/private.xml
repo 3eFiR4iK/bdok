@@ -12,11 +12,12 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/OpenServer/domains/bdok/resources/views/addPart.blade.php</file>
             <file>file:/C:/OpenServer/domains/bdok/app/Http/Controllers/TestController.php</file>
             <file>file:/C:/OpenServer/domains/bdok/routes/web.php</file>
-            <file>file:/C:/OpenServer/domains/bdok/resources/views/posts.blade.php</file>
             <file>file:/C:/OpenServer/domains/bdok/app/Http/Controllers/AddPartController.php</file>
+            <file>file:/C:/OpenServer/domains/bdok/public/css/but.css</file>
+            <file>file:/C:/OpenServer/domains/bdok/resources/views/posts.blade.php</file>
+            <file>file:/C:/OpenServer/domains/bdok/resources/views/addPart.blade.php</file>
         </group>
     </open-files>
 </project-private>

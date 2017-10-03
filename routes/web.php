@@ -35,6 +35,6 @@ Route::post('addPart','AddPartController@save')->name('savePart');
 
 Route::post('import','ImportController@import');
 Route::get('excel','ExcelController@export');
-
+Route::post('export/kadets','ExcelController@exportKadets');
 Route::get('upkadet','UpclassController@UpClass');
 

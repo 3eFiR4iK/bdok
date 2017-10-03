@@ -61,7 +61,7 @@ class dataController extends Controller
     }
     
     public function  getClasses(){
-        return DB::table('class')->orderBy('nameClass','asc')->get();
+        return DB::table('class')->orderBy('orderClass','asc')->get();
     }
     
     public function  getTeachers(){

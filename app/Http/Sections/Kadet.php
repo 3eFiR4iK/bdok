@@ -53,7 +53,7 @@ class Kadet extends Section
                 AdminColumn::custom('Класс', function ($query){ 
                     
                     $create = explode('-',$query->created_at);
-                    return $query->KadetClass->nameClass.' (-'. substr($create[0],2).'г.)';
+                    return $query->KadetClass->nameClass.' (-'. create[0].'г.)';
                     
                 })->setWidth(90),
                 AdminColumn::custom('Учится',function ($model){

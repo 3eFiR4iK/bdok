@@ -9,6 +9,7 @@ use Maatwebsite\Excel\Facades\Excel;
 use Auth;
 use App\part;
 use App\Klass;
+use App\Kadet;
 
 class ExcelController extends Controller
 {
@@ -446,5 +447,78 @@ class ExcelController extends Controller
         })->export('xls');
         
         return $ex;
+    }
+    
+    public function exportKadets(Request $request){
+        $res = Kadet::where('accClass','=',$request->input('class'))
+                ->where('studyKK','=','1')->orderBy('KLastName')->get();
+        $class = Klass::with('employee')->find($request->input('class'));
+        $colection = collect();
+        foreach ($res as $kadet){
+            $colection->push(["fio"=>$kadet->getFullNameAttribute()]);
+        }
+        
+        $ex = Excel::create('Кадеты из '.$class->nameClass,function ($excel) use($class,$colection){
+           $excel->setTitle('this title');
+           $excel->setCreator(Auth::user()->name);
+           $excel->setCompany('SPBKK');
+           $excel->setDescription('this description');
+           
+            $excel->sheet('Sheetname', function($sheet) use($class,$colection){
+                $sheet->cells('A:G',function($cells){
+                    $cells->setFontSize(13);
+                    $cells->setFontFamily('Times New Roman');
+                
+                });
+                
+                $sheet->setAutoSize(true);
+                $sheet->setWidth([
+                    'A'=>33,
+                    'B'=>11,
+                    'C'=>37,
+                    'D'=>13,
+                    'E'=>30,
+                    'F'=>18,
+                    'G'=>12
+                ]);
+                $sheet->setWrapText(['A','C','E','F']);
+
+                $sheet->cells('A:G',function ($cells){
+                     $cells->setValignment('center');
+                });
+                
+                $sheet->mergeCells('A1:G1');
+                $sheet->mergeCells('A2:G2');
+                $sheet->mergeCells('A3:G3');
+                $sheet->mergeCells('A6:G6');
+                
+
+                $sheet->cell('A1',function ($cell){
+                    $cell->setValue('ФГКОУ "Санкт-Петербургский кадетский военный корпус МО РФ"');
+                    $cell->setAlignment('center'); 
+                    $cell->setBackground('D9D9D9');
+                    $cell->setFont(['bold'=>true]);
+                });
+                $sheet->cell('A2',function ($cell) use($class){
+                    $cell->setValue('Кадеты из '.$class->nameClass);
+                    $cell->setAlignment('center');
+                    $cell->setFont(['bold'=>true]);
+                    $cell->setBackground('#D9D9D9');
+                });
+                $sheet->cell('A3',function ($cell) use($class){
+                    $cell->setValue('Классный руководитель: '.$class->employee->getFullNameAttribute());
+                    $cell->setAlignment('center'); 
+                    $cell->setBackground('D9D9D9');
+                });
+                $sheet->cell('A6',function ($cell){
+                    $cell->setValue('ФИО Кадета');
+                    $cell->setAlignment('center'); 
+                    $cell->setBackground('#BFBFBF');
+                    $cell->setFont(['bold'=>true]);
+                });
+               $sheet->fromArray($colection, null, 'A7', true, false);
+            });
+        })->export('xls');
+        return redirect()->back();
     }
 }
