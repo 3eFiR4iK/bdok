@@ -53,7 +53,7 @@ class Log extends Section
                 AdminColumn::datetime('date','Дата'),
                 AdminColumn::text('section','раздел')
                
-            );   
+            )->setOrder([[0,'desc']]);   
       $control=$display->getColumns()->getControlColumn(); 
       $control->setEditable(false);
 

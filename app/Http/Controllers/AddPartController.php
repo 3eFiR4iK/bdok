@@ -52,7 +52,7 @@ class AddPartController extends Controller
             'part_id'=>$id
         ]);}
         
-        LogController::addLog('добавил','в разделе "Добавление записей" <a href="http://dbok.loc/admin/parts/'. $id .'/edit"> ссылка</a> ');
+        LogController::addLog('добавил','в разделе "Добавление записей" <a href="/admin/parts/'. $id .'/edit"> ссылка</a> ');
 
          $status = 'Запись успешно добавлена';
         }

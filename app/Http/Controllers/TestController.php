@@ -147,12 +147,12 @@ class TestController extends Controller
          return back();
     }
     
-    public function toExport(){
+    public function toExport($path){
        $str = explode('?', $this->queryString);
         if( isset($str[1]) )
-            return redirect('excel?'.$str[1]);
+            return redirect('export/'.$path.'?'.$str[1]);
         else 
-            return redirect('excel');
+            return redirect('export/'.$path);
     }
         
    

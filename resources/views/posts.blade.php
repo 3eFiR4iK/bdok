@@ -68,7 +68,7 @@
                                     <td>Место</td>
                                     <td>Мероприятие</td>
                                     <td>Дата проведения</td>
-                                    <td>Фио Преподавателя</td>
+                                    <td>Фио педагога</td>
                                     <td>Предмет</td>
                                     <td>Класс</td>
                                     <td>&nbsp;</td>
@@ -102,8 +102,11 @@ echo $create[0] . 'г.';
                                 @endforeach
                             </tbody>
                         </table>
-                        <a href="/part/toexcel">
-                            <button type="button" class="btn btn-success" >Экспорт в Excel</button>
+                        <a href="/part/toexcel/parts">
+                            <button type="button" class="btn btn-success" >Экспорт по мероприятиям</button>
+                        </a>
+                         <a href="/part/toexcel/prepods">
+                            <button type="button" class="btn btn-success" >Экспорт по педагогам</button>
                         </a>
                         @if($status==0)
                         <p>По вашему запросу ничего не найдено</p>

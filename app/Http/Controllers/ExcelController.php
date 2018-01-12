@@ -10,6 +10,7 @@ use Auth;
 use App\part;
 use App\Klass;
 use App\Kadet;
+use App\Http\Controllers\lib\LogController;
 
 class ExcelController extends Controller
 {
@@ -90,7 +91,7 @@ class ExcelController extends Controller
     
     public function getData(){
         
-        $query = part::with('users','event','kadet','reach','subject');
+        $query = part::with('users','event','kadet.KadetClass','reach','subject');
         
         $event = $this->event;
         $class = $this->class;
@@ -150,7 +151,7 @@ class ExcelController extends Controller
         
         
        
-        return $query->get();
+        return $query->orderBy('dataEvent','desc')->get();
     }
     
     public function getDate($sDate, $fDate) {
@@ -306,7 +307,7 @@ class ExcelController extends Controller
 
     public function export(Request $request){
         
-       $data =  $this->getData($request);
+       $data = $this->getData($request);
        
        $d = $this->formatArray($data, [
             'kadet'
@@ -445,6 +446,7 @@ class ExcelController extends Controller
                 $sheet->fromArray($d, null, 'A7', true, false);                
              });
         })->export('xls');
+	LogController::addLog('Мероприятия','Экспорт отчета по мероприятиям');
         
         return $ex;
     }
@@ -519,6 +521,121 @@ class ExcelController extends Controller
                $sheet->fromArray($colection, null, 'A7', true, false);
             });
         })->export('xls');
+	LogController::addLog('Кадеты','Экспорт кадетов');
         return redirect()->back();
+    }
+    
+    public function exportPrepods(Request $request){
+        $collection = collect();
+        $var = $this->getData();
+        
+        foreach ($var as $part){
+            foreach($part->users as $user){
+                $collection->push(['name'=>$user->getFullNameAttribute(),
+                    'event'   =>$part->event->nameEvent,
+                    'reach'   =>$part->reach->nameReach,
+                    'date'    =>$part->dataEvent,
+                    'subject' =>$part->subject->nameSubject,
+                    'kadet'   =>$part->kadet->getFullNameAttribute(),
+                    ]);
+          }    
+        }
+        $colection = $collection->sortBy('name')->groupBy('name')->flatten(1);
+        
+        $ex = Excel::create('отчет по преподавателям',function ($excel) use($colection){
+           $excel->setTitle('отчет по преподавателям');
+           $excel->setCreator(Auth::user()->name);
+           $excel->setCompany('SPBKK');
+           $excel->setDescription('SPBKK');
+           
+            $excel->sheet('Sheetname', function($sheet) use($colection){
+                $sheet->cells('A:G',function($cells){
+                    $cells->setFontSize(13);
+                    $cells->setFontFamily('Times New Roman');
+                
+                });
+                
+                $sheet->setAutoSize(false);
+                $sheet->setWidth([
+                    'A'=>33,
+                    'B'=>50,
+                    'C'=>27,
+                    'D'=>13,
+                    'E'=>30,
+                    'F'=>33,
+                    //'G'=>12
+                ]);
+                $sheet->setWrapText(['A','B','C','E','F']);
+
+                $sheet->cells('A:G',function ($cells){
+                     $cells->setValignment('center');
+                });
+                
+                $sheet->mergeCells('A1:F1');
+                $sheet->mergeCells('A2:F2');
+                $sheet->mergeCells('A3:F3');
+                //$sheet->mergeCells('A6:G6');
+                
+
+                $sheet->cell('A1',function ($cell){
+                    $cell->setValue('ФГКОУ "Санкт-Петербургский кадетский военный корпус МО РФ"');
+                    $cell->setAlignment('center'); 
+                    $cell->setBackground('D9D9D9');
+                    $cell->setFont(['bold'=>true]);
+                });
+                 $sheet->cell('A2',function ($cell){
+                    $cell->setValue(' ');
+                    $cell->setAlignment('center');
+                    $cell->setFont(['bold'=>true]);
+                    $cell->setBackground('#D9D9D9');
+                });
+                $sheet->cell('A3',function ($cell){
+                    $cell->setValue('Отчет по преподавателям');
+                    $cell->setAlignment('center');
+                    $cell->setFont(['bold'=>true]);
+                    $cell->setBackground('#D9D9D9');
+                });
+                
+                
+                $sheet->cell('A6',function ($cell){
+                    $cell->setValue('ФИО преподователя');
+                    $cell->setAlignment('center'); 
+                    $cell->setBackground('#BFBFBF');
+                    $cell->setFont(['bold'=>true]);
+                });
+                $sheet->cell('B6',function ($cell){
+                    $cell->setValue('Мероприятие');
+                    $cell->setAlignment('center'); 
+                    $cell->setBackground('#BFBFBF');
+                    $cell->setFont(['bold'=>true]);
+                });
+                $sheet->cell('C6',function ($cell){
+                    $cell->setValue('Занятое место');
+                    $cell->setAlignment('center'); 
+                    $cell->setBackground('#BFBFBF');
+                    $cell->setFont(['bold'=>true]);
+                });
+                $sheet->cell('D6',function ($cell){
+                    $cell->setValue('Дата');
+                    $cell->setAlignment('center'); 
+                    $cell->setBackground('#BFBFBF');
+                    $cell->setFont(['bold'=>true]);
+                });
+                $sheet->cell('E6',function ($cell){
+                    $cell->setValue('Предмет');
+                    $cell->setAlignment('center'); 
+                    $cell->setBackground('#BFBFBF');
+                    $cell->setFont(['bold'=>true]);
+                });
+                $sheet->cell('F6',function ($cell){
+                    $cell->setValue('ФИО Кадета');
+                    $cell->setAlignment('center'); 
+                    $cell->setBackground('#BFBFBF');
+                    $cell->setFont(['bold'=>true]);
+                });
+                
+               $sheet->fromArray($colection, null, 'A7', true, false);
+            });
+        })->export('xls');
     }
 }

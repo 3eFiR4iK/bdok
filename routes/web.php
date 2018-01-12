@@ -21,7 +21,7 @@ Route::post('logout', 'LoginController@logout')->name('logout');
 
 Route::get('part','TestController@index') ;
 Route::get('part/filter/','TestController@filter')->name('filterPart');
-Route::get('part/toexcel','TestController@toExport');
+Route::get('part/toexcel/{path}','TestController@toExport');
 Route::post('part/updateImage','TestController@updateImage');
 
 Route::get('kadet','KadetController@kadets');
@@ -34,7 +34,8 @@ Route::get('addPart','AddPartController@show');
 Route::post('addPart','AddPartController@save')->name('savePart');
 
 Route::post('import','ImportController@import');
-Route::get('excel','ExcelController@export');
+Route::get('export/parts','ExcelController@export');
+Route::get('export/prepods','ExcelController@exportPrepods');
 Route::post('export/kadets','ExcelController@exportKadets');
 Route::get('upkadet','UpclassController@UpClass');
 

@@ -55,7 +55,7 @@
                     <option value="{{$class->nameClass}}"> {{$class->nameClass}} </option>
                     @endforeach
                 </select>
-                <label for="teacher">Преподаватель</label>
+                <label for="teacher">Фио педагога подготовившего кадета</label>
                 <select class="form-control select" name="teacher[]" multiple>
                     <option value=""></option>
                     @foreach($data['teachers'] as $teacher)
@@ -81,8 +81,8 @@
                 <br><br>
                 <input type="file" accept="image/*" name="image">
                 <br><br>
-                <button type="button" onclick="addForm();" class="btn">Добавить</button>   
-                <button type="submit" class="btn btn-success ">Добавить</button>   
+                <button type="button" onclick="addForm();" class="btn btn-success">Добавить</button>   
+                   
             
         </form>
         </div>
