@@ -17,6 +17,7 @@ class TestController extends Controller
     protected $sData;
     protected $fData;
     protected $reach;
+    protected $subject;
     protected $queryString;
 
     public function __construct(Request $request) {
@@ -30,6 +31,7 @@ class TestController extends Controller
         $this->sData=$request->input('secondData');
         $this->fData=$request->input('firstData');
         $this->reach=$request->input('reach');
+        $this->subject=$request->input('subject');
         $this->queryString=request()->server->get('HTTP_REFERER');
     }
 
@@ -64,7 +66,13 @@ class TestController extends Controller
         } 
         
         if($this->teacher !== NULL){
-            $query->Where('part_user.user_id', '=', $this->teacher);  
+            //$query->Where('part_user.user_id', '=', $this->teacher);  
+            $query->Where(function($qu){
+                    $mas= request()->input('teacher');
+                    foreach ($mas as $k =>$v)
+                        $qu->orWhere('part_user.user_id', '=', $v);
+                   
+                }); 
         }
         
         if($this->kadet !== NULL){
@@ -89,10 +97,17 @@ class TestController extends Controller
                     foreach ($mas as $k =>$v)
                         $qu->orWhere('part.accReach', '=', $v);
                    
-                });
-                
-            
+                }); 
         }
+        
+        if($this->subject !== NULL){
+            $query->Where(function($qu){
+               $mas= request()->input('subject');
+                    foreach ($mas as $k =>$v)
+                        $qu->orWhere('subject.account', '=', $v);
+                });   
+        } 
+        //dump($query->toSql());
         $quer=$query->paginate(15)->appends([
             'event'=>$this->event,
             'kadet'=>$this->kadet,
@@ -100,7 +115,8 @@ class TestController extends Controller
             'class'=>$this->class,
             'secondData'=>$this->sData,
             'firstData'=>$this->fData,
-            'reach'=>$this->reach]);  
+            'reach'=>$this->reach,
+            'subject'=>$this->subject]);  
         return $this->render($quer);
     }
 
@@ -121,6 +137,7 @@ class TestController extends Controller
         $data['teachers']= $this->db->getTeachers();
         $data['kadets']= $this->db->getKadets();
         $data['reach']=$this->db->getReach();
+        $data['subjects']= $this->db->getSubject();
         $this->event=request()->getQueryString();
         return view('posts',['posts'=>$data],['status'=>$status]);
     }

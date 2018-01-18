@@ -84,7 +84,7 @@ class dataController extends Controller
         return DB::table('reach')->get();
     }
     public function  getSubject(){
-        return DB::table('subject')->get();
+        return DB::table('subject')->orderBy('nameSubject')->get();
     }
     
    

@@ -25,7 +25,7 @@
                         @endforeach
                     </select><br>
                     <label for="teacher">По преподавателю</label>
-                    <select class="form-control  select" name="teacher">
+                    <select class="form-control  select" multiple="multiple" name="teacher[]">
                         <option value=""></option>
                         @foreach($posts['teachers'] as $teacher)
                         <option value="{{$teacher->id}}">{{$teacher->LastName}} {{$teacher->FirstName}} {{$teacher->SecondName}}</option>
@@ -37,6 +37,13 @@
                         <option value=""></option>
                         @foreach($posts['kadets'] as $kadet)
                         <option value="{{$kadet->account}}">{{$kadet->KLastName}} {{$kadet->KFirstName}} {{$kadet->KSecondName}}</option>
+                        @endforeach
+                    </select><br>
+                    <label for="subject">По предмету</label>
+                    <select name="subject[]" multiple="multiple" class='select form-control'>
+                        <option value=""></option>
+                        @foreach($posts['subjects'] as $subject)
+                        <option value="{{$subject->account}}">{{$subject->nameSubject}}</option>
                         @endforeach
                     </select><br><br>
 

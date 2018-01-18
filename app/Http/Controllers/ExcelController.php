@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 //use Maatwebsite\Excel\Excel;
 use Maatwebsite\Excel\Facades\Excel;
 use Auth;
+use App\User;
 use App\part;
 use App\Klass;
 use App\Kadet;
@@ -21,6 +22,7 @@ class ExcelController extends Controller
     protected $sData;
     protected $fData;
     protected $reach;
+    protected $subject;
     
     public function __construct(Request $request) {
         $this->middleware('auth');
@@ -31,7 +33,18 @@ class ExcelController extends Controller
         $this->sData = $request->input('secondData');
         $this->fData = $request->input('firstData');
         $this->reach = $request->input('reach');
+        $this->subject = $request->input('subject');
     }
+    
+    
+    protected function getUsers($users){
+        $res = [];
+        foreach(User::find(array_values($users)) as $user){
+            array_push($res, $user->getFullNameAttribute());
+        }
+    
+        return $res;
+        } 
     
     protected function getUserFullName($post){
       $user = '';
@@ -100,7 +113,7 @@ class ExcelController extends Controller
         $sData = $this->sData;
         $fData = $this->fData;
         $reach = $this->reach;
-        
+        $subject = $this->subject;
         
         if ($event !== NULL){
             $query->whereHas('event', function($q) use($event){
@@ -131,8 +144,12 @@ class ExcelController extends Controller
         
         if($teacher !== NULL){
             $query->whereHas('users', function($q) use($teacher){
-               $q->where('user_id', '=', $teacher)->orderBy('users.LastName');  
-                });        
+               //$q->where('user_id', '=', $teacher)->orderBy('users.LastName');
+               $q->where(function($qer) use ($teacher){
+                    foreach ($teacher as $k =>$v)
+                      $qer->orWhere('user_id', '=', $v);  
+                });
+            });        
         }
         
         if($reach !== NULL){
@@ -148,6 +165,14 @@ class ExcelController extends Controller
                 });  
         }
         
+         if ($subject !== NULL){
+            $query->whereHas('subject', function($q) use($subject){
+                $q->where(function($qer) use ($subject){
+                    foreach ($subject as $k =>$v)
+                      $qer->orWhere('account', '=', $v);  
+                });        
+            });
+        }
         
         
        
@@ -528,20 +553,28 @@ class ExcelController extends Controller
     public function exportPrepods(Request $request){
         $collection = collect();
         $var = $this->getData();
-        
+        //dump($request);
         foreach ($var as $part){
             foreach($part->users as $user){
-                $collection->push(['name'=>$user->getFullNameAttribute(),
+                $collection->push(collect(['name'=>$user->getFullNameAttribute(),
                     'event'   =>$part->event->nameEvent,
                     'reach'   =>$part->reach->nameReach,
                     'date'    =>$part->dataEvent,
                     'subject' =>$part->subject->nameSubject,
                     'kadet'   =>$part->kadet->getFullNameAttribute(),
-                    ]);
+                    ]));
           }    
         }
-        $colection = $collection->sortBy('name')->groupBy('name')->flatten(1);
         
+           
+        if($request->input('teacher') !== NULL){
+            $users = $request->input('teacher');
+            $colection = $collection->whereIn('name',array_values($this->getUsers($users)))->groupBy('name')->sortBy('date')->sortBy('name')->flatten(1);
+        } else {
+            $colection = $collection->groupBy('name')->sortBy('date')->sortBy('name')->flatten(1);
+        } 
+       
+       // dump($collection);
         $ex = Excel::create('отчет по преподавателям',function ($excel) use($colection){
            $excel->setTitle('отчет по преподавателям');
            $excel->setCreator(Auth::user()->name);
